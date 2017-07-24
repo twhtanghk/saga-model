@@ -31,3 +31,10 @@ npm install saga-model
 1. stampCreator = require 'saga-model' 
 2. create default stamp with specified url (e.g. #{location.href}/api/user)
 3. compose stamp with extended staic or instance methods
+```
+User = stampCreator "#{location.href}/api/user"
+Admin = User
+  .methods
+    isAdmin: ->
+      return true
+```
