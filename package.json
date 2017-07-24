@@ -1,0 +1,26 @@
+{
+  "name": "saga-model",
+  "version": "0.0.1",
+  "description": "ActiveRecord like Stamp via Redux Saga Rest",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/twhtanghk/saga-model.git"
+  },
+  "author": "Tommy Tang <twhtanghk@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/twhtanghk/saga-model/issues"
+  },
+  "homepage": "https://github.com/twhtanghk/saga-model#readme",
+  "dependencies": {
+    "coffee-script": "^1.12.7",
+    "redux": "^3.7.2",
+    "redux-saga": "^0.15.5",
+    "redux-saga-rest": "^0.2.2",
+    "stampit": "^3.1.3"
+  }
+}
