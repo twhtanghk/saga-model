@@ -8,7 +8,7 @@ npm install saga-model
 ```
 
 ## API
-1. Model(baseUrl): create stamp with input baseUrl
+1. stampCreator(baseUrl): create stamp with input baseUrl
 2. static:
   - idAttribute: 'id' (default)
   - baseUrl: specified baseUrl for restful api
@@ -27,14 +27,50 @@ npm install saga-model
   - json: parse response body stream and save result into res.data, also throw error if not res.ok
   - auth: acquire oauth2 token till login resolved or rejected
 
-## Create customized stamp on top of ActiveRecord like Steamp
+## Create customized stamp on top of ActiveRecord like Stamp
 1. stampCreator = require 'saga-model' 
 2. create default stamp with specified url (e.g. #{location.href}/api/user)
 3. compose stamp with extended staic or instance methods
 ```
+stampCreator = require 'saga-model'
 User = stampCreator "#{location.href}/api/user"
 Admin = User
   .methods
     isAdmin: ->
       return true
+```
+
+## Webpack loader (webpack.config.coffee)
+```
+babelLoader =
+  loader: 'babel-loader'
+  query:
+    plugins: [ 
+      [
+        'transform-runtime'
+        {
+          helpers: false
+          polyfill: true
+          regenerator: true
+          moduleName: 'babel-runtime'
+        }
+      ]
+    ]
+    presets: [
+      'es2015'
+      'stage-2'
+    ]
+
+module.exports =
+  entry: ...
+  output: ...
+  plugins: ...
+  module:
+    loaders: [
+      {
+        test: /saga\-model/
+        use: [ babelLoader ]
+      }
+      ...
+    ]
 ```
