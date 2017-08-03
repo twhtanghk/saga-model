@@ -6,7 +6,10 @@ stampit = require 'stampit'
 # return parsed json body or throw error
 json = (req, next) ->
   res = yield next req
-  res.data = yield res.json()
+  try
+    res.data = yield res.json()
+  catch error
+    throw new Error res.statusText
   if res.ok
     return res
   else
@@ -35,6 +38,10 @@ auth = (orgReq, next) ->
         'loginResolve'
         'loginReject'
       ]
+      error = yield select (state) ->
+        state.auth.error
+      if error?
+        throw new Error error
     else
       return res
 

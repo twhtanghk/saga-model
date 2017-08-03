@@ -11,9 +11,14 @@
   stampit = require('stampit');
 
   json = function*(req, next) {
-    var res;
+    var error, res;
     res = (yield next(req));
-    res.data = (yield res.json());
+    try {
+      res.data = (yield res.json());
+    } catch (error1) {
+      error = error1;
+      throw new Error(res.statusText);
+    }
     if (res.ok) {
       return res;
     } else {
@@ -33,7 +38,7 @@
    */
 
   auth = function*(orgReq, next) {
-    var headers, req, res, token;
+    var error, headers, req, res, token;
     while (true) {
       req = orgReq.clone();
       token = (yield select(function(state) {
@@ -49,6 +54,12 @@
           type: 'login'
         });
         yield take(['loginResolve', 'loginReject']);
+        error = (yield select(function(state) {
+          return state.auth.error;
+        }));
+        if (error != null) {
+          throw new Error(error);
+        }
       } else {
         return res;
       }
